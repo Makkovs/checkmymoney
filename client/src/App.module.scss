@@ -1,0 +1,15 @@
+@import "./variables.scss";
+
+.header {
+    display: grid;
+    grid-template-columns: 8fr 1fr 1fr;
+    align-items: center;
+    padding: 20px 150px;
+    background-color: $main-color;
+
+    .header__button {
+        font-size: 18px;
+    }
+
+
+}
