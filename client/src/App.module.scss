@@ -8,8 +8,60 @@
     background-color: $main-color;
 
     .header__button {
+        cursor: pointer;
+        color: $font-color;
         font-size: 18px;
+        transition: 0.2s;
+        -webkit-transition: 0.2s;
+
+        &:hover {
+            color: $font-color-second;
+        }
+    }
+}
+
+.content {
+    display: grid;
+    grid-template-columns: 1fr 4fr;
+
+    .aside {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        flex-direction: column;
+        padding: 50px 40px;
+
+        .last_change {
+            display: flex;
+            align-items: center;
+            padding: 5px;
+            margin-top: 20px;
+
+            .last_change__picture {
+                margin-right: 20px;
+                width: 50px;
+            }
+        }
+
     }
 
+    .bank {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 50px 20px;
 
+        .bank__info {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            
+            .bank__picture {
+                margin: 5px;
+                width: 60px;
+            }
+        }
+    }
 }
