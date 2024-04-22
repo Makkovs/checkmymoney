@@ -1,0 +1,19 @@
+.aside {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-direction: column;
+    padding: 50px 40px;
+
+    .last_change {
+        display: flex;
+        align-items: center;
+        padding: 5px;
+        margin-top: 20px;
+
+        .last_change__picture {
+            margin-right: 20px;
+            width: 50px;
+        }
+    }
+}

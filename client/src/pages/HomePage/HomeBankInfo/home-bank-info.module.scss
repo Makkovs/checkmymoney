@@ -1,0 +1,11 @@
+.bank__info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    
+    .bank__picture {
+        margin: 5px;
+        width: 60px;
+    }
+}

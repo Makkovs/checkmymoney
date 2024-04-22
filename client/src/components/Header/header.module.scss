@@ -1,0 +1,25 @@
+@import "../../variables.scss";
+
+.header {
+    display: grid;
+    grid-template-columns: 8fr 1fr 1fr;
+    align-items: center;
+    padding: 20px 150px;
+    background-color: $main-color;
+
+    .header__title {
+        font-family: Brush Script Std, cursive;
+    }
+
+    .header__button {
+        cursor: pointer;
+        color: $font-color;
+        font-size: 18px;
+        transition: 0.2s;
+        -webkit-transition: 0.2s;
+
+        &:hover {
+            color: $font-color-second;
+        }
+    }
+}
