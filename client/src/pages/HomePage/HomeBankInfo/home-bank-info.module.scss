@@ -4,8 +4,30 @@
     align-items: center;
     justify-content: center;
     
-    .bank__picture {
+    .costs {
+        display: flex;
+    }
+
+    .cost {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        width: 70px;
         margin: 5px;
+
+        .cost__text {
+            display: inline-block;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            width: 100%;
+            font-size: 14px;
+        }
+    }
+
+    .bank__picture {
+        margin: 5px 0px 5px 0px;
         width: 60px;
     }
 }
