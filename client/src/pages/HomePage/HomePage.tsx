@@ -122,22 +122,27 @@ const HomePage = () => {
             <article className={styles.bank}>
                 <HomeBankDiagram costs={costType === CostTypes.SPENDING ? spendings : incomings} />
                 <section>
-                    <input
-                        className={styles.cost_type_radio}
-                        type="radio"
-                        name="cost"
-                        value={CostTypes.SPENDING}
-                        checked={costType === CostTypes.SPENDING}
-                        onChange={(e) => setCostType(e.target.value)}
-                    /> Витрати
-                    <input
-                        className={styles.cost_type_radio}
-                        type="radio"
-                        name="cost"
-                        value={CostTypes.INCOMING}
-                        checked={costType === CostTypes.INCOMING}
-                        onChange={(e) => setCostType(e.target.value)}
-                    /> Доходи
+                    <span onClick={() => setCostType(CostTypes.SPENDING)}>
+                        <input
+                            className={styles.cost_type_radio}
+                            type="radio"
+                            name="cost"
+                            value={CostTypes.SPENDING}
+                            checked={costType === CostTypes.SPENDING}
+                            onChange={(e) => setCostType(e.target.value)}
+                        /> Витрати
+                    </span>
+                    <span onClick={() => setCostType(CostTypes.INCOMING)}>
+                        <input
+                            className={styles.cost_type_radio}
+                            type="radio"
+                            name="cost"
+                            value={CostTypes.INCOMING}
+                            checked={costType === CostTypes.INCOMING}
+                            onChange={(e) => setCostType(e.target.value)}
+                        />
+                        Доходи
+                    </span>
                 </section>
                 <HomeBankInfo spendings={spendings} incomings={incomings} />
             </article>
