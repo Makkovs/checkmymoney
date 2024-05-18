@@ -1,5 +1,4 @@
 const costGroupService = require("../services/costGroupService");
-const CostGroupService = require("../services/costGroupService");
 
 class CostGroupController {
 
