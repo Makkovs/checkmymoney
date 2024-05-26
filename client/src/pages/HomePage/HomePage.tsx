@@ -1,7 +1,12 @@
-import { useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import HomeAside from './HomeAside/HomeAside';
 import HomeBankDiagram from "./HomeBankDiagram/HomeBankDiagram";
 import HomeBankInfo from './HomeBankInfo/HomeBankInfo';
+
+import { useTypedSelector } from '../../hooks/useTypedSelector';
+import { useNavigate } from 'react-router-dom';
+
+import { AUTH_ROUTE } from '../../utils/paths';
 
 import styles from "./home.module.scss";
 
@@ -10,8 +15,11 @@ enum CostTypes {
     INCOMING = "INCOMING"
 }
 
-const HomePage = () => {
+const HomePage: FC = () => {
 
+    const navigate = useNavigate();
+
+    const isAuth: boolean = useTypedSelector(state => state.userReducer.isAuth);
     const [costType, setCostType] = useState<CostTypes | string>(CostTypes.SPENDING);
 
     const spendings: cost[] = [
@@ -115,6 +123,12 @@ const HomePage = () => {
             color: 'rgb(149,165,165)'
         }
     ];
+
+    useEffect(() => {
+        if (!isAuth) {
+            navigate(AUTH_ROUTE);
+        }
+    }, [isAuth]);
 
     return (
         <main className={styles.content}>

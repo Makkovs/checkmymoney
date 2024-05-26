@@ -9,12 +9,14 @@
 
     .header__title {
         font-family: Brush Script Std, cursive;
+        color: $font-color;
     }
 
     .header__button {
         cursor: pointer;
         color: $font-color;
         font-size: 18px;
+        text-decoration: none;
         transition: 0.2s;
         -webkit-transition: 0.2s;
 

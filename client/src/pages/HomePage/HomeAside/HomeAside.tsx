@@ -1,6 +1,8 @@
+import { FC } from "react";
+
 import styles from "./home-aside.module.scss";
 
-const HomeAside = () => {
+const HomeAside: FC = () => {
 
     return (
         <aside className={styles.aside}>
