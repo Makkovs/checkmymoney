@@ -1,0 +1,46 @@
+.groups {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 80px 20px 20px 20px;
+}
+
+.group {
+    cursor: pointer;
+    color: #000000;
+    background: #f0f0f0;
+    margin: 10px;
+    padding: 30px 30px;
+    border-radius: 10px;
+    transition: 0.3s;
+
+    min-width: 100px;
+    min-height: 100px;
+
+    &:hover {
+        background: #dfdfdf;
+    }
+
+    .group__row {
+        margin-top: 5px;
+    }
+}
+
+.plus_container {
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    background-color: #f0f0f0;
+    height: 70px;
+    width: 70px;
+    margin: 20px 100px;
+    border-radius: 50%;
+    font-size: 50px;
+    user-select: none;
+    transition: 0.3s;
+
+    &:hover {
+        background: #dfdfdf;
+    }
+}

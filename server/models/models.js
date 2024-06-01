@@ -27,6 +27,7 @@ const types = [
 const CostGroup = sequelize.define("costGroup", {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
     name: { type: DataTypes.STRING, allowNull: false },
+    ownerId: { type: DataTypes.INTEGER, allowNull: false }
 });
 
 const Cost = sequelize.define("cost", {
@@ -39,12 +40,9 @@ const Cost = sequelize.define("cost", {
 const User = sequelize.define("user", {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
     name: { type: DataTypes.STRING, allowNull: false },
-    login: { type: DataTypes.STRING, allowNull: false, unique: true  },
+    login: { type: DataTypes.STRING, allowNull: false, unique: true },
     password: { type: DataTypes.STRING, allowNull: false }
 });
-
-User.hasMany(CostGroup);
-CostGroup.belongsTo(User);
 
 CostGroup.hasMany(Cost);
 Cost.belongsTo(CostGroup);

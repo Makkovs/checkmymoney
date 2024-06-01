@@ -32,7 +32,7 @@ class UserValidator {
 
     async validateGetOne(req, res, next) {
         try {
-            const { login, id } = req.body;
+            const { login, id } = req.query;
 
             if (!login && !id) {
                 next(APIError.errorUndefinedArg());

@@ -2,8 +2,8 @@ import { FC } from "react";
 import styles from "./home-bank-info.module.scss";
 
 interface HomeBankInfoProps {
-    spendings: cost[];
-    incomings: cost[];
+    spendings: ICost[];
+    incomings: ICost[];
 }
 
 const HomeBankInfo: FC<HomeBankInfoProps> = ({ spendings, incomings }) => {
@@ -11,7 +11,7 @@ const HomeBankInfo: FC<HomeBankInfoProps> = ({ spendings, incomings }) => {
     return (
         <section className={styles.bank__info}>
             <div className={styles.costs}>
-                {spendings.map((spending: cost, index: number) =>
+                {spendings.map((spending: ICost, index: number) =>
                     <div className={styles.cost} key={Date.now() * index}>
                         <span
                             className={styles.cost__text}
@@ -30,7 +30,7 @@ const HomeBankInfo: FC<HomeBankInfoProps> = ({ spendings, incomings }) => {
                 )}
             </div>
             <div className={styles.costs}>
-                {incomings.map((incoming: cost, index: number) =>
+                {incomings.map((incoming: ICost, index: number) =>
                     <div className={styles.cost} key={Date.now() * index}>
                         <span
                             className={styles.cost__text}

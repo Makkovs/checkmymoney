@@ -1,4 +1,4 @@
-interface cost {
+interface ICost {
     name: string;
     icon: string;
     cost: number;

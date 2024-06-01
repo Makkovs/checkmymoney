@@ -13,13 +13,13 @@ interface RegistrationProps {
     setIsLogin: (isLogin: boolean) => void;
 }
 
-const Registration: FC<RegistrationProps> = ({setIsLogin}) => {
-
-    const navigate = useNavigate();
-    const dispatch = useDispatch();
+const Registration: FC<RegistrationProps> = ({ setIsLogin }) => {
 
     const passwordHiddenUrl: string = "https://cdn-icons-png.flaticon.com/128/2767/2767146.png";
     const passwordNotHiddenUrl: string = "https://cdn-icons-png.flaticon.com/128/158/158746.png";
+
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const [name, setName] = useState<string>("");
     const [login, setLogin] = useState<string>("");
@@ -75,7 +75,7 @@ const Registration: FC<RegistrationProps> = ({setIsLogin}) => {
             </button>
             <span className={styles.underTitle}>
                 Вже маєте аккаунт? <span className={styles.redirect} onClick={() => setIsLogin(true)}>Увійти</span>
-            </span>    
+            </span>
         </form>
     );
 }

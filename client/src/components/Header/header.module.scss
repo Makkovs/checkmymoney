@@ -19,6 +19,7 @@
         text-decoration: none;
         transition: 0.2s;
         -webkit-transition: 0.2s;
+        max-width: fit-content;
 
         &:hover {
             color: $font-color-second;

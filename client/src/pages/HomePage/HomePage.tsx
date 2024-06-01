@@ -22,7 +22,7 @@ const HomePage: FC = () => {
     const isAuth: boolean = useTypedSelector(state => state.userReducer.isAuth);
     const [costType, setCostType] = useState<CostTypes | string>(CostTypes.SPENDING);
 
-    const spendings: cost[] = [
+    const spendings: ICost[] = [
         {
             name: "Їжа",
             icon: "https://cdn-icons-png.flaticon.com/512/8280/8280802.png",
@@ -91,7 +91,7 @@ const HomePage: FC = () => {
         }
     ];
 
-    const incomings: cost[] = [
+    const incomings: ICost[] = [
         {
             name: "Зарплатня",
             icon: "https://cdn-icons-png.flaticon.com/512/9242/9242802.png",

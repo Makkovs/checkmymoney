@@ -6,7 +6,7 @@ import { Pie } from "react-chartjs-2";
 import styles from "./home-bank-diagram.module.scss";
 
 interface HomeBankDiagramProps {
-    costs: cost[]
+    costs: ICost[]
 }
 
 const HomeBankDiagram: FC<HomeBankDiagramProps> = ({ costs }) => {
@@ -14,11 +14,11 @@ const HomeBankDiagram: FC<HomeBankDiagramProps> = ({ costs }) => {
     Chart.register(ArcElement, Legend, Tooltip, ChartDataLabels);
 
     const [allCosts, setAllCosts] = useState<number>(0);
-    const [sortedCosts, setSortedCosts] = useState<cost[]>([]);
+    const [sortedCosts, setSortedCosts] = useState<ICost[]>([]);
 
     useEffect(() => {
         setAllCosts(
-            Array.from(costs.map((cost: cost) => cost.cost))
+            Array.from(costs.map((cost: ICost) => cost.cost))
                 .reduce((prev: number, next: number) => prev + next, 0)
         );
         setSortedCosts(costs.sort((a, b) => a.cost - b.cost));
@@ -41,11 +41,11 @@ const HomeBankDiagram: FC<HomeBankDiagramProps> = ({ costs }) => {
                 width={"500px"}
                 data={
                     {
-                        labels: [...Array.from(sortedCosts.map((cost: cost) => cost.name))],
+                        labels: [...Array.from(sortedCosts.map((cost: ICost) => cost.name))],
                         datasets: [{
                             label: '',
-                            data: [...Array.from(sortedCosts.map((cost: cost) => cost.cost))],
-                            backgroundColor: [...Array.from(sortedCosts.map((cost: cost) => cost.color))],
+                            data: [...Array.from(sortedCosts.map((cost: ICost) => cost.cost))],
+                            backgroundColor: [...Array.from(sortedCosts.map((cost: ICost) => cost.color))],
                             hoverOffset: 4,
                             borderWidth: 0,
                         }]

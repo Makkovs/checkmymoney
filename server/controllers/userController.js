@@ -26,10 +26,10 @@ class UserController {
 
     async getOne(req, res, next) {
         try {
-            const { login, id } = req.body;
+            const { login, id } = req.query;
 
             const user = await userService.getOne(login, id);
-            return res.json(user);
+            return res.json({ user });
         } catch (error) {
             next(error);
         }
