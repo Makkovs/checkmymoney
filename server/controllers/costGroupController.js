@@ -29,7 +29,7 @@ class CostGroupController {
 
     async getOne(req, res, next) {
         try {
-            const { id } = req.body;
+            const { id } = req.query;
 
             const costGroup = await costGroupService.getOne(id);
 

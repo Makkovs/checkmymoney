@@ -5,6 +5,9 @@ import { useNavigate } from "react-router-dom";
 import { createUser } from "../../../http/userAPI";
 import { setAuthAction } from "../../../store/userReducer";
 
+import Input from "../../../components/Input/Input";
+import Button from "../../../components/Button/Button";
+
 import { HOME_ROUTE } from "../../../utils/paths";
 
 import styles from "../auth.module.scss";
@@ -15,16 +18,12 @@ interface RegistrationProps {
 
 const Registration: FC<RegistrationProps> = ({ setIsLogin }) => {
 
-    const passwordHiddenUrl: string = "https://cdn-icons-png.flaticon.com/128/2767/2767146.png";
-    const passwordNotHiddenUrl: string = "https://cdn-icons-png.flaticon.com/128/158/158746.png";
-
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
     const [name, setName] = useState<string>("");
     const [login, setLogin] = useState<string>("");
     const [password, setPassword] = useState<string>("");
-    const [passwordHidden, setPasswordHidden] = useState<boolean>(true);
 
     const completeRegistration = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -37,42 +36,31 @@ const Registration: FC<RegistrationProps> = ({ setIsLogin }) => {
     return (
         <form className={styles.auth} onSubmit={completeRegistration}>
             <h2 className={styles.title}>Реєстрація</h2>
-            <input
-                className={styles.input}
+            <Input
                 type="text"
                 placeholder="Ім'я"
                 value={name}
-                onChange={(e) => setName(e.target.value)}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setName(e.target.value)}
             />
-            <input
-                className={styles.input}
+            <Input
                 type="text"
                 placeholder="Логін"
                 value={login}
-                onChange={(e) => setLogin(e.target.value)}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setLogin(e.target.value)}
             />
-            <div className={styles.input_password_wrapper}>
-                <input
-                    className={[styles.input, styles.input_password].join(" ")}
-                    type={passwordHidden ? "password" : "text"}
-                    placeholder="Пароль"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    autoComplete="on"
-                />
-                <button
-                    className={styles.password_button}
-                    type="button"
-                    style={{ backgroundImage: `url(${passwordHidden ? passwordHiddenUrl : passwordNotHiddenUrl})` }}
-                    onClick={() => setPasswordHidden(!passwordHidden)}
-                ></button>
-            </div>
-            <button
-                className={styles.button}
+            <Input
+                type="password"
+                placeholder="Пароль"
+                value={password}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
+                autoComplete="on"
+                inputType="PASSWORD"
+            />
+            <Button
                 type="submit"
             >
                 Зареєструватись
-            </button>
+            </Button>
             <span className={styles.underTitle}>
                 Вже маєте аккаунт? <span className={styles.redirect} onClick={() => setIsLogin(true)}>Увійти</span>
             </span>

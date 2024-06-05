@@ -5,6 +5,9 @@ import { useNavigate } from "react-router-dom";
 import { loginUser } from "../../../http/userAPI";
 import { setAuthAction } from "../../../store/userReducer";
 
+import Input from "../../../components/Input/Input";
+import Button from "../../../components/Button/Button";
+
 import { HOME_ROUTE } from "../../../utils/paths";
 
 import styles from "../auth.module.scss";
@@ -15,13 +18,9 @@ interface LoginProps {
 
 const Login: FC<LoginProps> = ({ setIsLogin }) => {
 
-    const passwordHiddenUrl: string = "https://cdn-icons-png.flaticon.com/128/2767/2767146.png";
-    const passwordNotHiddenUrl: string = "https://cdn-icons-png.flaticon.com/128/158/158746.png";
-
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
-    const [passwordHidden, setPasswordHidden] = useState<boolean>(true);
     const [login, setLogin] = useState<string>("");
     const [password, setPassword] = useState<string>("");
 
@@ -36,35 +35,25 @@ const Login: FC<LoginProps> = ({ setIsLogin }) => {
     return (
         <form className={styles.auth} onSubmit={completeLogin}>
             <h2 className={styles.title}>Вхід</h2>
-            <input
-                className={styles.input}
+            <Input
                 type="text"
                 placeholder="Логін"
                 value={login}
-                onChange={(e) => setLogin(e.target.value)}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setLogin(e.target.value)}
             />
-            <div className={styles.input_password_wrapper}>
-                <input
-                    className={[styles.input, styles.input_password].join(" ")}
-                    type={passwordHidden ? "password" : "text"}
-                    placeholder="Пароль"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    autoComplete="on"
-                />
-                <button
-                    className={styles.password_button}
-                    type="button"
-                    style={{ backgroundImage: `url(${passwordHidden ? passwordHiddenUrl : passwordNotHiddenUrl})` }}
-                    onClick={() => setPasswordHidden(!passwordHidden)}
-                ></button>
-            </div>
-            <button
-                className={styles.button}
+            <Input
+                type="password"
+                placeholder="Пароль"
+                value={password}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
+                autoComplete="on"
+                inputType="PASSWORD"
+            />
+            <Button
                 type="submit"
             >
                 Увійти
-            </button>
+            </Button>
             <span className={styles.underTitle}>
                 Не маєте аккаунту? <span className={styles.redirect} onClick={() => setIsLogin(false)}>Зареєструватись</span>
             </span>

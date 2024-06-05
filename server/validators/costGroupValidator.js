@@ -18,7 +18,7 @@ class CostGroupValidator {
 
     async validateGetOne(req, res, next) {
         try {
-            const { id } = req.body;
+            const { id } = req.query;
 
             if (!id) {
                 next(APIError.errorUndefinedArg());

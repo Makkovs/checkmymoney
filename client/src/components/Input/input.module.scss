@@ -1,27 +1,5 @@
 @import "../../variables.scss";
 
-.auth {
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    justify-content: center;
-    margin-top: 25vh;
-}
-
-.title {
-    font-family: Verdana, sans-serif;
-}
-
-.underTitle {
-    margin-top: 20px;
-}
-
-.redirect {
-    cursor: pointer;
-    color: rgb(151, 82, 185);
-    text-decoration: underline;
-}
-
 .input {
     font-size: 16px;
     font-family: Verdana, sans-serif;
@@ -42,6 +20,10 @@
 .input_password {
     border: 0px;
     min-width: 220px;
+}
+
+.solid {
+    border-style: solid;
 }
 
 .input_password_wrapper {

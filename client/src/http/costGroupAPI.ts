@@ -26,7 +26,7 @@ export const fetchAllGroups = async () => {
 
 export const fetchOneGroup = async <T extends CostGroupData>(id: T["id"]) => {
     try {
-        const { data } = await $host.get("api/cost-group/get-one", { params: id });
+        const { data } = await $host.get("api/cost-group/get-one", { params: { id } });
         return data;
     } catch (error: any) {
         return error.response.data.error;
@@ -55,12 +55,12 @@ export const renameGroup = async <T extends CostGroupData>(id: T["id"], name: T[
     try {
         const { data } = await $authHost.patch("api/cost-group/rename", { id, name });
         return data;
-    } catch (error: any){
+    } catch (error: any) {
         return error.response.data.error;
     }
 }
 
-export const deleteGroup = async <T extends CostGroupData> (id: T["id"]) => {
+export const deleteGroup = async <T extends CostGroupData>(id: T["id"]) => {
     try {
         const { data } = await $authHost.delete("api/cost-group/delete", { data: id });
         return data;

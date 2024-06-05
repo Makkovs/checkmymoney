@@ -16,8 +16,10 @@ const App = () => {
 
     useEffect(() => {
         check().then((data: IUser) => {
-            dispatch(setUserAction(data));
-            dispatch(setAuthAction(true));
+            if (data) {
+                dispatch(setUserAction(data));
+                dispatch(setAuthAction(true));
+            }
         });
     }, []);
 

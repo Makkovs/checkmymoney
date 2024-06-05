@@ -16,11 +16,11 @@ class CostValidator {
         }
     }
 
-    async valdiateGetAll (req, res, next) {
+    async valdiateGetAll(req, res, next) {
         try {
-            const { category, type, costGroupId, userId } = req.body;
+            const { costGroupId } = req.query;
 
-            if (!costGroupId){
+            if (!costGroupId) {
                 next(APIError.errorUndefinedArg());
             }
 

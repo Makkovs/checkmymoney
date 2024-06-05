@@ -1,6 +1,8 @@
 interface ICost {
     name: string;
-    icon: string;
+    category: string;
+    type: string;
+    icon?: string;
     cost: number;
     color?: string;
 };

@@ -16,7 +16,7 @@ class CostController {
 
     async getAll(req, res, next) {
         try {
-            const { category, type, costGroupId, userId, betweenDate } = req.body;
+            const { category, type, costGroupId, userId, betweenDate } = req.query;
 
             const costs = await costService.getAll(category, type, costGroupId, userId, betweenDate);
             return res.json({ costs });
