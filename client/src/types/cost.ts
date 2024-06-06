@@ -1,8 +1,8 @@
 interface ICost {
-    name: string;
+    id: number;
     category: string;
-    type: string;
-    icon?: string;
+    type: "SPENDING" | "INCOMING";
     cost: number;
-    color?: string;
+    createdAt: string;
+    updatedAt: string;
 };

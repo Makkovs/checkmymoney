@@ -1,15 +1,15 @@
+import { Pie } from "react-chartjs-2";
+import { FC, useEffect, useState } from 'react';
 import { Chart, ArcElement, Legend, Tooltip } from 'chart.js'
 import ChartDataLabels, { Context } from "chartjs-plugin-datalabels";
-import { FC, useEffect, useState } from 'react';
-import { Pie } from "react-chartjs-2";
 
-import styles from "./home-bank-diagram.module.scss";
+import { CategoryType, colorCategories } from '../../../utils/imgCategories';
 
-interface HomeBankDiagramProps {
-    costs: ICost[]
+interface GroupBankDiagramProps {
+    costs: ICost[];
 }
 
-const HomeBankDiagram: FC<HomeBankDiagramProps> = ({ costs }) => {
+const GroupBankDiagram: FC<GroupBankDiagramProps> = ({ costs }) => {
 
     Chart.register(ArcElement, Legend, Tooltip, ChartDataLabels);
 
@@ -17,11 +17,22 @@ const HomeBankDiagram: FC<HomeBankDiagramProps> = ({ costs }) => {
     const [sortedCosts, setSortedCosts] = useState<ICost[]>([]);
 
     useEffect(() => {
+        const groupedCosts: ICost[] = [];
+        costs.forEach((cost: ICost) => {
+            const findend = groupedCosts.find((costG: ICost) => costG.category === cost.category);
+            if (findend) {
+                findend.cost = Math.abs(findend.cost) + Math.abs(cost.cost);
+            } else {
+                groupedCosts.push({ ...cost });
+            }
+        });
+
         setAllCosts(
             Array.from(costs.map((cost: ICost) => cost.cost))
-                .reduce((prev: number, next: number) => prev + next, 0)
+                .reduce((prev: number, next: number) => Math.abs(prev) + Math.abs(next), 0)
         );
-        setSortedCosts(costs.sort((a, b) => a.cost - b.cost));
+
+        setSortedCosts(groupedCosts.sort((a, b) => a.cost - b.cost));
     }, [costs]);
 
     const labelsFormatter = (context: any, args: Context): string => {
@@ -35,17 +46,17 @@ const HomeBankDiagram: FC<HomeBankDiagramProps> = ({ costs }) => {
     }
 
     return (
-        <section className={styles.bank__diagram}>
+        <section>
             <Pie
                 height={"500px"}
                 width={"500px"}
                 data={
                     {
-                        labels: [...Array.from(sortedCosts.map((cost: ICost) => cost.name))],
+                        labels: [...Array.from(sortedCosts.map((cost: ICost) => cost.category))],
                         datasets: [{
                             label: '',
                             data: [...Array.from(sortedCosts.map((cost: ICost) => cost.cost))],
-                            backgroundColor: [...Array.from(sortedCosts.map((cost: ICost) => cost.color))],
+                            backgroundColor: [...Array.from(sortedCosts.map((cost: ICost) => colorCategories[cost.category as CategoryType]))],
                             hoverOffset: 4,
                             borderWidth: 0,
                         }]
@@ -75,4 +86,5 @@ const HomeBankDiagram: FC<HomeBankDiagramProps> = ({ costs }) => {
         </section>
     );
 }
-export default HomeBankDiagram;
+
+export default GroupBankDiagram;

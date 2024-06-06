@@ -4,7 +4,7 @@ import styles from "./loading.module.scss";
 
 interface LoadingProps {
     loading: boolean;
-    style: React.CSSProperties;
+    style?: React.CSSProperties;
 };
 
 const Loading: FC<LoadingProps> = ({ loading, style }) => {
