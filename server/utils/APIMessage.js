@@ -14,6 +14,10 @@ class APIMessage {
     static messageRemoveMember(item, id, memberId) {
         return { message: `Member with id ${memberId} was removed from ${item} with id ${id}` };
     }
+
+    static messageIconChanged(item, id, newIconId) {
+        return { message: `${item} with id ${id} was changed! New icon: ${newIconId}` }
+    }
 }
 
 module.exports = APIMessage;

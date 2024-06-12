@@ -1,7 +1,12 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../db");
 
-const categories = [
+const types = [
+    "SPENDING",
+    "INCOMING"
+]
+
+const imgIds = [
     "FOOD",
     "HOUSING",
     "TRANSPORT",
@@ -19,11 +24,6 @@ const categories = [
     "OTHER"
 ];
 
-const types = [
-    "SPENDING",
-    "INCOMING"
-]
-
 const CostGroup = sequelize.define("costGroup", {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
     name: { type: DataTypes.STRING, allowNull: false },
@@ -32,10 +32,16 @@ const CostGroup = sequelize.define("costGroup", {
 
 const Cost = sequelize.define("cost", {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-    cost: { type: DataTypes.INTEGER, allowNull: false },
-    category: { type: DataTypes.ENUM(...categories), allowNull: false },
+    value: { type: DataTypes.INTEGER, allowNull: false },
     type: { type: DataTypes.ENUM(...types), allowNull: false }
 });
+
+const Category = sequelize.define("category", {
+    id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+    name: { type: DataTypes.STRING, allowNull: false },
+    imgId: { type: DataTypes.ENUM(...imgIds), allowNull: false },
+    isStandart: { type: DataTypes.BOOLEAN, allowNull: false },
+})
 
 const User = sequelize.define("user", {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
@@ -47,6 +53,12 @@ const User = sequelize.define("user", {
 CostGroup.hasMany(Cost);
 Cost.belongsTo(CostGroup);
 
+CostGroup.hasMany(Category);
+Category.belongsTo(CostGroup);
+
+Category.hasMany(Cost);
+Cost.belongsTo(Category);
+
 User.hasMany(Cost);
 Cost.belongsTo(User);
 
@@ -56,5 +68,6 @@ User.belongsToMany(CostGroup, { through: "GroupUser" });
 module.exports = {
     User,
     CostGroup,
-    Cost
+    Cost,
+    Category,
 }
