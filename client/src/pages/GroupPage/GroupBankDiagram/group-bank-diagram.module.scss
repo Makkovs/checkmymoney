@@ -1,0 +1,16 @@
+@import "../../../variables.scss";
+
+.diagram_circle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 500px;
+    width: 500px;
+    border-radius: 50%;
+    background: $second-object-color;
+
+    .diagram_text {
+        color: white;
+        font-size: 20px;
+    }
+}

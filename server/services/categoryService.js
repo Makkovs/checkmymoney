@@ -1,4 +1,4 @@
-const { CostGroup, Category, Cost } = require("../models/models");
+const { CostGroup, Category } = require("../models/models");
 const APIError = require("../utils/APIError");
 const APIMessage = require("../utils/APIMessage");
 
@@ -11,7 +11,7 @@ class CategoryService {
         }
 
         const user = await costGroup.getUsers({ where: { id: userId } });
-        if (user.length > 0) {
+        if (user.length <= 0) {
             throw APIError.errorHaveNotPermissions();
         }
     }
@@ -42,8 +42,18 @@ class CategoryService {
     async getAll(costGroupId, userId) {
         await this.#checkIsMember(userId, costGroupId);
 
-        const categories = await Category.findAll({ where: { id: costGroupId } });
+        const categories = await Category.findAll({ where: { costGroupId } });
         return categories;
+    }
+
+    async getOne(id, userId) {
+        const category = await Category.findOne({ where: { id } });
+        if (!category) {
+            throw APIError.errorCandidateNotFound("category", "id", id);
+        }
+
+        await this.#checkIsMember(userId, category.costGroupId);
+        return category;
     }
 
     async rename(id, name, userId) {

@@ -1,8 +1,16 @@
-interface ICost {
+import { ICategory } from "./category";
+
+export interface ICost {
     id: number;
-    category: string;
+    categoryId: number;
+    category?: ICategory;
     type: "SPENDING" | "INCOMING";
-    cost: number;
+    value: number;
     createdAt: string;
     updatedAt: string;
 };
+
+export enum CostTypes {
+    SPENDING = "SPENDING",
+    INCOMING = "INCOMING"
+}

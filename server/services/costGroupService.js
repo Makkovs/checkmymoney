@@ -4,6 +4,17 @@ const APIMessage = require("../utils/APIMessage");
 
 class CostGroupService {
 
+    async #checkIsOwner(userId, costGroupId) {
+        const costGroup = await CostGroup.findOne({ where: { id: costGroupId } });
+        if (!costGroup) {
+            APIError.errorCandidateNotFound("costGroup", "id", costGroupId)
+        }
+
+        if (costGroup.ownerId !== userId) {
+            throw APIError.errorHaveNotPermissions();
+        }
+    }
+
     async create(name, userId) {
         const costGroup = await CostGroup.create({ name, ownerId: userId });
         const owner = await User.findOne({ where: { id: userId } });
@@ -33,9 +44,7 @@ class CostGroupService {
             throw APIError.errorCandidateNotFound("group", "id", id);
         }
 
-        if (group.ownerId !== userId) {
-            throw APIError.errorHaveNotPermissions();
-        }
+        this.#checkIsOwner(userId, id);
 
         const member = await User.findOne({ where: { id: memberId } });
         if (!member) {
@@ -52,9 +61,7 @@ class CostGroupService {
             throw APIError.errorCandidateNotFound("group", "id", id);
         }
 
-        if (group.userId !== userId) {
-            throw APIError.errorHaveNotPermissions();
-        }
+        this.#checkIsOwner(userId, id);
 
         await group.removeUser(memberId);
         return APIMessage.messageRemoveMember("CostGroup", id, memberId);
@@ -66,9 +73,7 @@ class CostGroupService {
             throw APIError.errorCandidateNotFound("CostGroup", "id", id);
         }
 
-        if (userId !== candidate.userId) {
-            throw APIError.errorHaveNotPermissions();
-        }
+        this.#checkIsOwner(userId, id);
 
         await CostGroup.update({ name: name }, { where: { id } });
         return APIMessage.messageRenamed("CostGroup", id, name);
@@ -80,9 +85,7 @@ class CostGroupService {
             throw APIError.errorCandidateNotFound("CostGroup", "id", id);
         }
 
-        if (userId !== candidate.userId) {
-            throw APIError.errorHaveNotPermissions();
-        }
+        this.#checkIsOwner(userId, id);
 
         await candidate.destroy();
         return APIMessage.messageDeleted("CostGroup", id);

@@ -27,6 +27,18 @@ class CategoryController {
         }
     }
 
+    async getOne(req, res, next) {
+        try {
+            const { id } = req.query;
+            const userId = req.user.id;
+
+            const category = await categoryService.getOne(id, userId);
+            return res.json(category);
+        } catch (error) {
+            next(error);
+        }
+    }
+
     async renameCategory(req, res, next) {
         try {
             const { id, name } = req.body;

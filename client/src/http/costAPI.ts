@@ -1,20 +1,21 @@
+import { CostTypes } from "../types/cost";
 import { $authHost, $host } from "./index";
 
 interface CostData {
     id: number;
-    cost: number;
-    type?: string | null;
-    category?: string | null;
+    value: number;
+    type?: CostTypes | null;
+    categoryId?: number | null;
     costGroupId: number;
     userId?: number | null;
     betweenDate?: string | null;
 }
 
 export const createCost = async <T extends CostData>(
-    cost: T["cost"], category: T["category"], type: T["type"], costGroupId: T["costGroupId"]
+    value: T["value"], categoryId: T["categoryId"], type: T["type"], costGroupId: T["costGroupId"]
 ) => {
     try {
-        const { data } = await $authHost.post("api/cost/create", { cost, category, type, costGroupId });
+        const { data } = await $authHost.post("api/cost/create", { value, categoryId, type, costGroupId });
         return data;
     } catch (error: any) {
         return error.response.data.error;
@@ -22,11 +23,11 @@ export const createCost = async <T extends CostData>(
 }
 
 export const fetchAllCosts = async <T extends CostData>(
-    category: T["category"], type: T["type"], costGroupId: T["costGroupId"], userId: T["userId"], beetweenDate: T["betweenDate"]
+    categoryId: T["categoryId"], type: T["type"], costGroupId: T["costGroupId"], userId: T["userId"], beetweenDate: T["betweenDate"]
 ) => {
     try {
         const { data } = await $host.get("api/cost/get-all", {
-            params: { category, type, costGroupId, userId, beetweenDate }
+            params: { categoryId, type, costGroupId, userId, beetweenDate }
         });
         return data;
     } catch (error: any) {

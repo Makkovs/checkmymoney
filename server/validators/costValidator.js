@@ -4,9 +4,9 @@ class CostValidator {
 
     async validateCreate(req, res, next) {
         try {
-            const { cost, category, type } = req.body;
+            const { value, categoryId, type } = req.body;
 
-            if (!cost || !category || !type) {
+            if (!value || !categoryId || !type) {
                 next(APIError.errorUndefinedArg());
             }
 

@@ -26,7 +26,21 @@ class CategoryValidator {
 
             next();
         } catch (error) {
-            next(error)
+            next(error);
+        }
+    }
+
+    async validateGetOne(req, res, next){
+        try {
+            const { id } = req.query;
+
+            if (!id){
+                next(APIError.errorUndefinedArg());
+            }
+
+            next();
+        } catch (error){
+            next(error);
         }
     }
 

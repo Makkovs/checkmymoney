@@ -4,10 +4,10 @@ class CostController {
 
     async create(req, res, next) {
         try {
-            const { cost, category, type, costGroupId } = req.body;
+            const { value, categoryId, type, costGroupId } = req.body;
             const userId = req.user.id;
 
-            const newCost = await costService.create(cost, category, type, costGroupId, userId);
+            const newCost = await costService.create(value, categoryId, type, costGroupId, userId);
             return res.json({ newCost });
         } catch (error) {
             next(error);
@@ -16,9 +16,9 @@ class CostController {
 
     async getAll(req, res, next) {
         try {
-            const { category, type, costGroupId, userId, betweenDate } = req.query;
+            const { categoryId, type, costGroupId, userId, betweenDate } = req.query;
 
-            const costs = await costService.getAll(category, type, costGroupId, userId, betweenDate);
+            const costs = await costService.getAll(categoryId, type, costGroupId, userId, betweenDate);
             return res.json({ costs });
         } catch (error) {
             next(error);

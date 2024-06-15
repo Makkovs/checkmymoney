@@ -4,6 +4,7 @@ import styles from "./input.module.scss";
 
 enum InputTypes {
     STANDART = "STANDART",
+    NUMBER = "NUMBER",
     PASSWORD = "PASSWORD",
     SOLID_BORDER = "SOLID_BORDER"
 }
@@ -32,6 +33,7 @@ const Input: FC<InputProps> = ({
     useEffect(() => {
         switch (inputType) {
             case InputTypes.STANDART:
+            case InputTypes.NUMBER:
                 setClasses(styles.input);
                 break;
             case InputTypes.PASSWORD:

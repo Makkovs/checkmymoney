@@ -1,0 +1,21 @@
+.row {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.select {
+    color: white;
+    cursor: pointer;
+    margin-top: 15px;
+    padding: 6.5px 15px;
+    font-size: 18px;
+    height: fit-content;
+    background-color: black;
+    border-radius: 3px 3px 5px 5px;
+    border: none;
+}
+
+.select:last-child {
+    border-radius: 0px 0px 3px 3px;
+}

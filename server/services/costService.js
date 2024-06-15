@@ -5,20 +5,20 @@ const APIMessage = require("../utils/APIMessage");
 
 class CostService {
 
-    async create(cost, category, type, costGroupId, userId) {
-        const newCost = await Cost.create({ cost, category, type, costGroupId, userId });
+    async create(value, categoryId, type, costGroupId, userId) {
+        const newCost = await Cost.create({ value, categoryId, type, costGroupId, userId });
         return newCost;
     }
 
-    async getAll(category, type, costGroupId, userId, betweenDate) {
+    async getAll(categoryId, type, costGroupId, userId, betweenDate) {
         let whereCheck = { costGroupId };
 
         if (userId) {
             whereCheck.userId = userId;
         }
 
-        if (category) {
-            whereCheck.category = category;
+        if (categoryId) {
+            whereCheck.category = categoryId;
         }
 
         if (type) {

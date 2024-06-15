@@ -1,6 +1,7 @@
 import { FC } from "react";
 
 import InfoCost from "../InfoCost/InfoCost";
+import { ICost } from "../../../types/cost";
 
 import styles from "./group-bank-info.module.scss";
 
