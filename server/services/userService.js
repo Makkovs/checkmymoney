@@ -24,7 +24,7 @@ class UserService {
     async login(login, password) {
         const candidate = await User.findOne({ where: { login } })
         if (!candidate) {
-            throw APIError.errorCandidateNotFound("user", "login", login);
+            throw APIError.errorIncorrectPassword();
         }
 
         const comparedPassword = bcrypt.compareSync(password, candidate.password);

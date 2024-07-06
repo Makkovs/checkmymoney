@@ -17,11 +17,12 @@ interface InputProps {
     autoComplete?: string;
     inputType?: string;
     style?: React.CSSProperties;
+    inputError?: boolean
 }
 
 const Input: FC<InputProps> = ({
     type, placeholder, value, onChange, autoComplete,
-    inputType = InputTypes.STANDART, style
+    inputType = InputTypes.STANDART, style, inputError
 }) => {
 
     const [classes, setClasses] = useState<string>("")
@@ -46,11 +47,22 @@ const Input: FC<InputProps> = ({
                 setClasses(styles.input);
                 break;
         }
-    })
+
+        if (inputError) {
+            if (inputType !== InputTypes.PASSWORD) {
+                setClasses(classes => classes + ` ${styles.input_error}`);
+            }
+        }
+    });
 
     if (inputType === InputTypes.PASSWORD) {
         return (
-            <div className={styles.input_password_wrapper}>
+            <div
+                className={
+                    inputError
+                        ? [styles.input_password_wrapper, styles.input_error].join(" ")
+                        : styles.input_password_wrapper
+                }>
                 <input
                     className={classes}
                     type={passwordHidden ? "password" : "text"}

@@ -13,9 +13,9 @@ export const createUser = async <T extends UserData>(name: T["name"], login: T["
     try {
         const { data } = await $host.post("api/user/create", { name, login, password });
         localStorage.setItem("token", data.token);
-        return jwtDecode(data.token);
+        return {token: jwtDecode(data.token)};
     } catch (error: any) {
-        return error.response.data.error;
+        return { error: error.response.data.error, status: error.response.status}
     }
 }
 
@@ -23,9 +23,9 @@ export const loginUser = async <T extends UserData>(login: T["login"], password:
     try {
         const { data } = await $host.post("api/user/login", { login, password });
         localStorage.setItem("token", data.token);
-        return jwtDecode(data.token);
+        return {token: jwtDecode(data.token)};
     } catch (error: any) {
-        return error.response.data.error;
+        return { error: error.response.data.error, status: error.response.status }
     }
 }
 

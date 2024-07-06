@@ -16,6 +16,11 @@ interface LoginProps {
     setIsLogin: (isLogin: boolean) => void;
 }
 
+interface inputError {
+    input: "LOGIN" | "PASSWORD" | "ALL" | null;
+    message: string;
+}
+
 const Login: FC<LoginProps> = ({ setIsLogin }) => {
 
     const navigate = useNavigate();
@@ -24,11 +29,42 @@ const Login: FC<LoginProps> = ({ setIsLogin }) => {
     const [login, setLogin] = useState<string>("");
     const [password, setPassword] = useState<string>("");
 
+    const [error, setError] = useState<inputError>({ input: null, message: "" });
+
+    const checkInputValid = () => {
+        setError({ input: null, message: "" });
+
+        if (login.length <= 0) {
+            setError({ input: "LOGIN", message: "Вкажіть логін" });
+            return false;
+        }
+        if (password.length <= 0) {
+            setError({ input: "PASSWORD", message: "Вкажіть пароль" });
+            return false;
+        }
+
+        return true;
+    }
+
     const completeLogin = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        loginUser(login, password).then(() => {
-            navigate(HOME_ROUTE);
-            dispatch(setAuthAction(true));
+
+        const valid = checkInputValid();
+        if (!valid) {
+            return;
+        }
+
+        loginUser(login, password).then((data) => {
+            if (data.error) {
+                if (data.status === 401) {
+                    setError({ input: "ALL", message: "Неправильний логін чи пароль" });
+                } else {
+                    setError({ input: null, message: "Сталася невідома помилка. Спробуйте пізніше" })
+                }
+            } else {
+                navigate(HOME_ROUTE);
+                dispatch(setAuthAction(true));
+            }
         });
     }
 
@@ -40,6 +76,7 @@ const Login: FC<LoginProps> = ({ setIsLogin }) => {
                 placeholder="Логін"
                 value={login}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => setLogin(e.target.value)}
+                inputError={error.input === "ALL" || error.input === "LOGIN"}
             />
             <Input
                 type="password"
@@ -48,7 +85,9 @@ const Login: FC<LoginProps> = ({ setIsLogin }) => {
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
                 autoComplete="on"
                 inputType="PASSWORD"
+                inputError={error.input === "ALL" || error.input === "PASSWORD"}
             />
+            <span className={styles.errorMessage}>{error.message}</span>
             <Button
                 type="submit"
             >
