@@ -12,6 +12,19 @@
         padding: 20px 20px;
     }
 
+    .total {
+        margin: 10px 0px 10px 0px;
+        font-size: 23px;
+    
+        .green {
+            color: $green-color;
+        }
+
+        .red {
+            color: $red-color;
+        }
+    }
+
     .cost_type_radio {
         margin: 10px;
     }

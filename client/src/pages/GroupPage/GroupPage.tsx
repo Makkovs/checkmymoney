@@ -26,6 +26,7 @@ const GroupPage: FC = () => {
 
     const [spendings, setSpendings] = useState<ICost[]>([]);
     const [incomings, setIncomings] = useState<ICost[]>([]);
+    const [total, setTotal] = useState<number>(0);
 
     const [costType, setCostType] = useState<string>(CostTypes.SPENDING);
     const [loading, setLoading] = useState<boolean>(true);
@@ -45,9 +46,19 @@ const GroupPage: FC = () => {
                 }
             }));
 
+            const fetchedSpendings = updatedCosts.filter((cost: ICost) => cost.type === CostTypes.SPENDING);
+            const fetchedIncomings = updatedCosts.filter((cost: ICost) => cost.type == CostTypes.INCOMING);
+
             setCosts(updatedCosts);
-            setSpendings(updatedCosts.filter((cost: ICost) => cost.type === CostTypes.SPENDING));
-            setIncomings(updatedCosts.filter((cost: ICost) => cost.type == CostTypes.INCOMING));
+            setSpendings(fetchedSpendings);
+            setIncomings(fetchedIncomings);
+
+            const spendingsSum = Array.from(fetchedSpendings.map((spending: ICost) => spending.value))
+                .reduce((a, b) => a + b, 0);
+            const incomingsSum = Array.from(fetchedIncomings.map((incoming: ICost) => incoming.value))
+                .reduce((a, b) => a + b, 0);
+
+            setTotal(incomingsSum + spendingsSum);
 
         } catch (error: any) {
             console.log(error);
@@ -78,6 +89,11 @@ const GroupPage: FC = () => {
                     <article className={styles.bank}>
                         <GroupBankDiagram costs={costType === CostTypes.SPENDING ? spendings : incomings} />
                         <section>
+                            <h2 className={styles.total}>
+                                Підсумки: <span className={total >= 0 ? styles.green : styles.red}>{total}</span>
+                            </h2>
+                        </section>
+                        <section>
                             <span onClick={() => setCostType(CostTypes.SPENDING)}>
                                 <input
                                     className={styles.cost_type_radio}
@@ -100,7 +116,7 @@ const GroupPage: FC = () => {
                                 Доходи
                             </span>
                         </section>
-                        <GroupBankInfo spendings={spendings} incomings={incomings} />
+                        <GroupBankInfo costs={costType === CostTypes.SPENDING ? spendings : incomings} />
                     </article>
                 </>
             }

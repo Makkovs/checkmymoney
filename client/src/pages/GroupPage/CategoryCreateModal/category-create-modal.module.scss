@@ -1,0 +1,39 @@
+@import "../../../variables.scss";
+
+.row {
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.selectCategory {
+    cursor: pointer;
+    width: 50px;
+}
+
+.iconsList {
+    display: none;
+    position: absolute;
+    width: 300px;
+    top: 56.5%;
+    left: 46%;
+    padding: 10px;
+    border-radius: 10px;
+    border-top-left-radius: 0px;
+    background: rgb(219, 217, 217, 0.8);
+
+    .iconToSelect {
+        cursor: pointer;
+        width: 50px;
+        margin: 3px;
+    }
+}
+
+.selectCategoryVisible {
+    display: block;
+}
+
+.red {
+    color: $red-color;
+}

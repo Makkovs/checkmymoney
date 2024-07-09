@@ -40,7 +40,7 @@ const GroupBankDiagram: FC<GroupBankDiagramProps> = ({ costs }) => {
     }, [costs]);
 
     const labelsFormatter = (context: any, args: Context): string => {
-        if (context / allCosts < 0.10) {
+        if (Math.abs(context) / Math.abs(allCosts) < 0.10) {
             return "";
         }
 
