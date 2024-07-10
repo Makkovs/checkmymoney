@@ -50,7 +50,7 @@ const GroupBankDiagram: FC<GroupBankDiagramProps> = ({ costs }) => {
     }
 
     return (
-        <section>
+        <section className={styles.diagram_wrapper}>
             {sortedCosts.length > 0
 
                 ?

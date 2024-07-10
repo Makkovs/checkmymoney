@@ -2,7 +2,7 @@
 
 .content {
     display: grid;
-    grid-template-columns: 1fr 2fr 4fr 1fr;
+    grid-template-columns: 2fr 5fr;
 
     .bank {
         display: flex;
@@ -12,7 +12,7 @@
         padding: 20px 20px;
     }
 
-    .total {
+    .total {  
         margin: 10px 0px 10px 0px;
         font-size: 23px;
     

@@ -1,5 +1,9 @@
 @import "../../../variables.scss";
 
+.diagram_wrapper {
+    margin-top: -150px;
+}
+
 .diagram_circle {
     display: flex;
     align-items: center;

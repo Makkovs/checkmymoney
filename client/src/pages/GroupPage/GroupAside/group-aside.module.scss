@@ -1,18 +1,20 @@
 @import "../../../variables.scss";
 
 .aside {
-    grid-column: 2;
-
     display: flex;
-    justify-content: flex-start;
+    justify-content: center;
     flex-direction: column;
-    padding: 50px 40px;
+    padding: 50px 70px;
+    background: #f0f0f0;
+    max-height: 100vh;
+    overflow-y: auto;
 
     .last_change {
-        display: flex;
-        align-items: center;
+        display: grid;
+        grid-template-columns: 2fr 3fr 1fr;
         padding: 5px;
         margin-top: 20px;
+        align-items: center;
 
         .last_change__picture {
             margin-right: 20px;
@@ -23,26 +25,20 @@
     .nothing {
         margin-left: 25px;
     }
+}
 
-    .add_button {
-        cursor: pointer;
-        display: flex;
-        justify-content: center;
-        color: $font-color;
-        background-color: $second-object-color;
-        border: 1px solid $second-object-color;
-        border-radius: 50%;
-        height: 49px;
-        width: 49px;
-        margin: 20px 70px;
-        font-size: 38px;
-        user-select: none;
-        transition: 0.3s;
+.red {
+    color: $red-color;
+}
 
-        &:hover {
-            color: $font-color-second;
-            background: $second-color;
-            border-color: black;
-        }
-    }
+.green {
+    color: $green-color;
+}
+
+.end_row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin-top: 20px;
 }

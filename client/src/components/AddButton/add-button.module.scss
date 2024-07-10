@@ -1,0 +1,22 @@
+@import "../../variables.scss";
+
+.add_button {
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    color: $font-color;
+    background-color: $second-object-color;
+    border: 1px solid $second-object-color;
+    border-radius: 50%;
+    height: 49px;
+    width: 49px;
+    font-size: 38px;
+    user-select: none;
+    transition: 0.3s;
+
+    &:hover {
+        color: $font-color-second;
+        background: $second-color;
+        border-color: black;
+    }
+}

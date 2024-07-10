@@ -4,6 +4,7 @@ import { CategoryType, imgCategories } from "../../../utils/imgCategories";
 import { ICost } from "../../../types/cost";
 
 import styles from "./group-aside.module.scss";
+import AddButton from "../../../components/AddButton/AddButton";
 
 interface GroupAsideProps {
     costs: ICost[];
@@ -15,10 +16,13 @@ const GroupAside: FC<GroupAsideProps> = ({ costs, setVisible }) => {
     return (
         <aside className={styles.aside}>
             <h2>Останні зміни</h2>
+            <div className={styles.end_row}>
+                <AddButton onClick={() => setVisible(true)} />
+            </div>
             {costs.length > 0
                 ?
                 <>
-                    {costs.slice(0, 8).map((cost: ICost) =>
+                    {costs.map((cost: ICost) =>
                         <div className={styles.last_change} key={`cost-aside#${cost.id}`}>
                             <img
                                 className={styles.last_change__picture}
@@ -27,6 +31,11 @@ const GroupAside: FC<GroupAsideProps> = ({ costs, setVisible }) => {
                             />
                             <div className={styles.last_spending__info}>
                                 <h4>{cost.category?.name}</h4>
+                            </div>
+                            <div className={cost.value >= 0
+                                ? [styles.last_spending__info, styles.green].join(" ")
+                                : [styles.last_spending__info, styles.red].join(" ")
+                            }>
                                 <span>{cost.value}</span>
                             </div>
                         </div>
@@ -37,12 +46,6 @@ const GroupAside: FC<GroupAsideProps> = ({ costs, setVisible }) => {
                     У вас немає змін
                 </div>
             }
-            <div
-                className={styles.add_button}
-                onClick={() => setVisible(true)}
-            >
-                +
-            </div>
         </aside>
     );
 }
