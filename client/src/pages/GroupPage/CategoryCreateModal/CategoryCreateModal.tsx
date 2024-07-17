@@ -1,10 +1,10 @@
 import { FC, useState } from "react";
 
+import { createCategory } from "../../../http/categoryAPI";
+
 import Modal from "../../../components/Modal/Modal";
 import Input from "../../../components/Input/Input";
 import Button from "../../../components/Button/Button";
-
-import { createCategory } from "../../../http/categoryAPI";
 
 import { CategoryType, imgCategories } from "../../../utils/imgCategories";
 
@@ -21,6 +21,32 @@ interface inputError {
     message: string;
 }
 
+const chechInputValid = (name: string, setInputError: (state: inputError) => void): boolean => {
+    if (!name) {
+        setInputError({
+            status: true,
+            message: "Вкажіть назву категорії"
+        });
+        return false;
+    }
+
+    if (name.length > 16){
+        setInputError({
+            status: true,
+            message: "Назва не має містити більше 16 символів"
+        });
+        return false;
+    }
+
+    return true;
+}
+
+const setLimitedInput = (value: string, limit: number, setValue: (state: string) => void) => {
+    if (value.length <= limit){
+        setValue(value);
+    }
+}
+
 const CategoryCreateModal: FC<CategoryCreateModalProps> = ({ categoryVisible, setCategoryVisible, costGroupId }) => {
 
     const [name, setName] = useState<string>("");
@@ -31,18 +57,15 @@ const CategoryCreateModal: FC<CategoryCreateModalProps> = ({ categoryVisible, se
     const iconsToSelect = Object.values(imgCategories);
 
     const selectIcon = (icon: string) => {
-        setSelectedIcon(icon)
-        setIconsToSelectMenu(false)
+        setSelectedIcon(icon);
+        setIconsToSelectMenu(false);
     }
 
-    const addCategory = () => {
+    const addCategory = async () => {
         setInputError({ status: false, message: "" });
 
-        if (!name) {
-            setInputError({
-                status: true,
-                message: "Вкажіть назву категорії"
-            });
+        const valid = chechInputValid(name, setInputError);
+        if (!valid){
             return;
         }
 
@@ -72,7 +95,7 @@ const CategoryCreateModal: FC<CategoryCreateModalProps> = ({ categoryVisible, se
                     placeholder="Назва категорії"
                     type="text"
                     value={name}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setName(e.target.value)}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setLimitedInput(e.target.value, 16, setName)}
                     inputError={inputError.status}
                 />
             </div>

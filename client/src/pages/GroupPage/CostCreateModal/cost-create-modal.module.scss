@@ -5,15 +5,17 @@
 }
 
 .select {
-    color: white;
     cursor: pointer;
+    color: white;
+    font-size: 18px;
+
     margin-top: 15px;
     padding: 6.5px 15px;
-    font-size: 18px;
+
+    border: none;
     height: fit-content;
     background-color: black;
     border-radius: 3px 3px 5px 5px;
-    border: none;
 }
 
 .select:last-child {

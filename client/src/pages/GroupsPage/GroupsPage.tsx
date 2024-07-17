@@ -1,17 +1,15 @@
 import { FC, useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 
+import useGetGroups from "../../hooks/useGetGroups";
+import { createGroup } from "../../http/costGroupAPI";
+
 import Group from "./Group/Group";
 import Modal from "../../components/Modal/Modal";
 import Input from "../../components/Input/Input";
 import Button from "../../components/Button/Button";
 import Loading from "../../components/Loading/Loading";
 
-import { fetchOneUser } from "../../http/userAPI";
-import { fetchAllCosts } from "../../http/costAPI";
-import { createGroup, fetchAllGroups } from "../../http/costGroupAPI";
-
-import { ICost } from "../../types/cost";
 import { IGroup } from "../../types/group";
 import { GROUP_ROUTE } from "../../utils/paths";
 
@@ -19,39 +17,11 @@ import styles from "./groups-page.module.scss";
 
 const GroupsPage: FC = () => {
 
-    const [groups, setGroups] = useState<IGroup[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [modalVisible, setModalVisible] = useState<boolean>(false);
+    const { groups, getGroups } = useGetGroups(setLoading);
 
     const [inputName, setInputName] = useState<string>("");
-
-    const getGroups = async () => {
-        setLoading(true);
-
-        try {
-            const data = await fetchAllGroups();
-            const costGroups: IGroup[] = data.costGroups;
-
-            const updatedGroups = await Promise.all(costGroups.map(async (costGroup: IGroup) => {
-                const userData = await fetchOneUser(costGroup.ownerId);
-                const costData = await fetchAllCosts(null, null, costGroup.id, null, null);
-                const costs: number[] = Array.from(costData.costs.rows.map((cost: ICost) => cost.value));
-                const allCosts: number = costs.reduce((a: number, c: number) => a + c, 0);
-
-                return {
-                    ...costGroup,
-                    ownerName: userData.user.name,
-                    cost: allCosts
-                }
-            }));
-
-            setGroups(updatedGroups);
-        } catch (error: any) {
-            console.log(error);
-        } finally {
-            setLoading(false);
-        }
-    };
 
     const createNewGroup = async () => {
         try {

@@ -21,6 +21,21 @@ interface inputError {
     message: string;
 }
 
+const checkInputValid = (login: string, password: string, setError: (state: inputError) => void) => {
+    setError({ input: null, message: "" });
+
+    if (login.length <= 0) {
+        setError({ input: "LOGIN", message: "Вкажіть логін" });
+        return false;
+    }
+    if (password.length <= 0) {
+        setError({ input: "PASSWORD", message: "Вкажіть пароль" });
+        return false;
+    }
+
+    return true;
+}
+
 const Login: FC<LoginProps> = ({ setIsLogin }) => {
 
     const navigate = useNavigate();
@@ -31,41 +46,26 @@ const Login: FC<LoginProps> = ({ setIsLogin }) => {
 
     const [error, setError] = useState<inputError>({ input: null, message: "" });
 
-    const checkInputValid = () => {
-        setError({ input: null, message: "" });
-
-        if (login.length <= 0) {
-            setError({ input: "LOGIN", message: "Вкажіть логін" });
-            return false;
-        }
-        if (password.length <= 0) {
-            setError({ input: "PASSWORD", message: "Вкажіть пароль" });
-            return false;
-        }
-
-        return true;
-    }
-
-    const completeLogin = (event: React.FormEvent<HTMLFormElement>) => {
+    const completeLogin = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
-        const valid = checkInputValid();
+        const valid = checkInputValid(login, password, setError);
         if (!valid) {
             return;
         }
 
-        loginUser(login, password).then((data) => {
-            if (data.error) {
-                if (data.status === 401) {
-                    setError({ input: "ALL", message: "Неправильний логін чи пароль" });
-                } else {
-                    setError({ input: null, message: "Сталася невідома помилка. Спробуйте пізніше" })
-                }
+        const data = await loginUser(login, password);
+
+        if (data.error) {
+            if (data.status === 401) {
+                setError({ input: "ALL", message: "Неправильний логін чи пароль" });
             } else {
-                navigate(HOME_ROUTE);
-                dispatch(setAuthAction(true));
+                setError({ input: null, message: "Сталася невідома помилка. Спробуйте пізніше" })
             }
-        });
+        } else {
+            navigate(HOME_ROUTE);
+            dispatch(setAuthAction(true));
+        }
     }
 
     return (
@@ -75,14 +75,14 @@ const Login: FC<LoginProps> = ({ setIsLogin }) => {
                 type="text"
                 placeholder="Логін"
                 value={login}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setLogin(e.target.value)}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setLogin(e.target.value.trim())}
                 inputError={error.input === "ALL" || error.input === "LOGIN"}
             />
             <Input
                 type="password"
                 placeholder="Пароль"
                 value={password}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value.trim())}
                 autoComplete="on"
                 inputType="PASSWORD"
                 inputError={error.input === "ALL" || error.input === "PASSWORD"}

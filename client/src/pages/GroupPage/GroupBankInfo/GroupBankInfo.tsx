@@ -1,5 +1,5 @@
 import { FC } from "react";
-
+    
 import AddButton from "../../../components/AddButton/AddButton";
 import InfoCost from "../InfoCost/InfoCost";
 
@@ -9,9 +9,10 @@ import styles from "./group-bank-info.module.scss";
 
 interface GroupBankInfoProps {
     costs: ICost[];
+    setVisible: (state: boolean) => void;
 }
 
-const GroupBankInfo: FC<GroupBankInfoProps> = ({ costs }) => {
+const GroupBankInfo: FC<GroupBankInfoProps> = ({ costs, setVisible }) => {
 
     return (
         <section className={styles.bank__info}>
@@ -20,7 +21,7 @@ const GroupBankInfo: FC<GroupBankInfoProps> = ({ costs }) => {
                     <InfoCost cost={cost} key={`cost-info#${cost.id}`} />
                 )}
                 <div className={styles.add_button}>
-                    <AddButton />
+                    <AddButton onClick={() => setVisible(true)}/>
                 </div>
             </div>
         </section>

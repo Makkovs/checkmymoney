@@ -10,22 +10,36 @@
         align-items: center;
         justify-content: center;
         padding: 20px 20px;
-    }
 
-    .total {  
-        margin: 10px 0px 10px 0px;
-        font-size: 23px;
+        .groupName {
+            margin-bottom: 10px;
+        }
+
+        .total {  
+            margin: 10px 0px 10px 0px;
+            font-size: 23px;
+        }
+
+        .totalCost {
+            margin: 10px 0px 10px 0px;
+            font-size: 21px;
+        }
+
+        .cost_type_text {
+            cursor: pointer;
     
-        .green {
-            color: $green-color;
-        }
-
-        .red {
-            color: $red-color;
+            .cost_type_radio {
+                cursor: pointer;
+                margin: 10px;
+            }
         }
     }
+}
 
-    .cost_type_radio {
-        margin: 10px;
-    }
+.green {
+    color: $green-color;
+}
+
+.red {
+    color: $red-color;
 }

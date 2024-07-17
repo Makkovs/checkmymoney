@@ -1,10 +1,13 @@
 import { FC } from "react";
 
-import { CategoryType, imgCategories } from "../../../utils/imgCategories";
+import getDate from "../../../utils/getDate";
+
 import { ICost } from "../../../types/cost";
+import { CategoryType, imgCategories } from "../../../utils/imgCategories";
+
+import AddButton from "../../../components/AddButton/AddButton";
 
 import styles from "./group-aside.module.scss";
-import AddButton from "../../../components/AddButton/AddButton";
 
 interface GroupAsideProps {
     costs: ICost[];
@@ -31,6 +34,7 @@ const GroupAside: FC<GroupAsideProps> = ({ costs, setVisible }) => {
                             />
                             <div className={styles.last_spending__info}>
                                 <h4>{cost.category?.name}</h4>
+                                <h5 className={styles.date}>{getDate(cost.createdAt)}</h5>
                             </div>
                             <div className={cost.value >= 0
                                 ? [styles.last_spending__info, styles.green].join(" ")

@@ -3,10 +3,10 @@ import { FC, useEffect, useState } from "react";
 import { useTypedSelector } from "../../hooks/useTypedSelector";
 import { useNavigate } from "react-router-dom";
 
-import { HOME_ROUTE } from "../../utils/paths";
-
 import Login from "./Login/Login";
 import Registration from "./Registration/Registration";
+
+import { HOME_ROUTE } from "../../utils/paths";
 
 const AuthPage: FC = () => {
 

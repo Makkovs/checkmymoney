@@ -1,13 +1,13 @@
 import React, { FC, useEffect, useRef, useState } from "react";
 
-import Modal from "../../../components/Modal/Modal";
-import Button from "../../../components/Button/Button";
-import Input from "../../../components/Input/Input";
-
 import CategoryCreateModal from "../CategoryCreateModal/CategoryCreateModal";
 
 import { fetchCategories } from "../../../http/categoryAPI";
 import { createCost } from "../../../http/costAPI";
+
+import Modal from "../../../components/Modal/Modal";
+import Button from "../../../components/Button/Button";
+import Input from "../../../components/Input/Input";
 
 import { ICategory } from "../../../types/category";
 import { CostTypes } from "../../../types/cost";

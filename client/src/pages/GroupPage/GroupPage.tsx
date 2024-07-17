@@ -1,75 +1,39 @@
 import { useParams } from "react-router-dom";
 import { FC, useEffect, useState } from "react";
 
-import Loading from "../../components/Loading/Loading";
+import useGetCosts from "../../hooks/useGetCosts";
+import useSortByType from "../../hooks/useSortByType";
+import useGetTotal from "../../hooks/useGetTotal";
 
 import GroupAside from "./GroupAside/GroupAside";
+import Loading from "../../components/Loading/Loading";
 import GroupBankInfo from "./GroupBankInfo/GroupBankInfo";
 import CostCreateModal from "./CostCreateModal/CostCreateModal";
 import GroupBankDiagram from "./GroupBankDiagram/GroupBankDiagram";
 
-import { fetchOneCategory } from "../../http/categoryAPI";
 import { fetchOneGroup } from "../../http/costGroupAPI";
-import { fetchAllCosts } from "../../http/costAPI";
 
 import { IGroup } from "../../types/group";
-import { CostTypes, ICost } from "../../types/cost";
+import { CostTypes } from "../../types/cost";
 
 import styles from "./group-page.module.scss";
 
 const GroupPage: FC = () => {
 
-    const { id } = useParams();
+    const { id } = useParams<{ id: string }>();
 
     const [group, setGroup] = useState<IGroup>();
-    const [costs, setCosts] = useState<ICost[]>([]);
 
-    const [spendings, setSpendings] = useState<ICost[]>([]);
-    const [incomings, setIncomings] = useState<ICost[]>([]);
-    const [total, setTotal] = useState<number>(0);
-
-    const [costType, setCostType] = useState<string>(CostTypes.SPENDING);
     const [loading, setLoading] = useState<boolean>(true);
     const [visible, setVisible] = useState<boolean>(false);
+    const [costType, setCostType] = useState<string>(CostTypes.SPENDING);
 
-    const getCosts = async () => {
-        try {
-            const data = await fetchAllCosts(null, null, Number(id), null, null);
-            const sortedCosts: ICost[] = data.costs.rows.sort((a: ICost, b: ICost) =>
-                new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
-
-            const updatedCosts = await Promise.all(sortedCosts.map(async (cost: ICost) => {
-                const categoryData = await fetchOneCategory(cost.categoryId);
-                return {
-                    ...cost,
-                    category: categoryData
-                }
-            }));
-
-            const fetchedSpendings = updatedCosts.filter((cost: ICost) => cost.type === CostTypes.SPENDING);
-            const fetchedIncomings = updatedCosts.filter((cost: ICost) => cost.type == CostTypes.INCOMING);
-
-            setCosts(updatedCosts);
-            setSpendings(fetchedSpendings);
-            setIncomings(fetchedIncomings);
-
-            const spendingsSum = Array.from(fetchedSpendings.map((spending: ICost) => spending.value))
-                .reduce((a, b) => a + b, 0);
-            const incomingsSum = Array.from(fetchedIncomings.map((incoming: ICost) => incoming.value))
-                .reduce((a, b) => a + b, 0);
-
-            setTotal(incomingsSum + spendingsSum);
-
-        } catch (error: any) {
-            console.log(error);
-        } finally {
-            setLoading(false);
-        }
-    }
+    const { costs, getCosts } = useGetCosts(Number(id), setLoading);
+    const { spendings, incomings } = useSortByType(costs);
+    const { total, totalSpendings, totalIncomings } = useGetTotal(spendings, incomings);
 
     useEffect(() => {
         fetchOneGroup(Number(id)).then((data) => setGroup(data.costGroup));
-        getCosts()
     }, []);
 
     return (
@@ -87,14 +51,28 @@ const GroupPage: FC = () => {
                     />
                     <GroupAside costs={costs} setVisible={setVisible} />
                     <article className={styles.bank}>
+                        <h2 className={styles.groupName}>{group?.name}</h2>
                         <GroupBankDiagram costs={costType === CostTypes.SPENDING ? spendings : incomings} />
                         <section>
+                            {costType === CostTypes.SPENDING
+                                ?
+                                <h2 className={styles.total}>
+                                    Витрати: <span className={styles.red}>{totalSpendings}</span>
+                                </h2>
+                                :
+                                <h2 className={styles.total}>
+                                    Доходи: <span className={styles.green}>{totalIncomings}</span>
+                                </h2>
+                            }
                             <h2 className={styles.total}>
                                 Підсумки: <span className={total >= 0 ? styles.green : styles.red}>{total}</span>
                             </h2>
                         </section>
                         <section>
-                            <span onClick={() => setCostType(CostTypes.SPENDING)}>
+                            <span
+                                className={styles.cost_type_text}
+                                onClick={() => setCostType(CostTypes.SPENDING)}
+                            >
                                 <input
                                     className={styles.cost_type_radio}
                                     type="radio"
@@ -104,7 +82,10 @@ const GroupPage: FC = () => {
                                     onChange={(e) => setCostType(e.target.value)}
                                 /> Витрати
                             </span>
-                            <span onClick={() => setCostType(CostTypes.INCOMING)}>
+                            <span
+                                className={styles.cost_type_text}
+                                onClick={() => setCostType(CostTypes.INCOMING)}
+                            >
                                 <input
                                     className={styles.cost_type_radio}
                                     type="radio"
@@ -116,7 +97,10 @@ const GroupPage: FC = () => {
                                 Доходи
                             </span>
                         </section>
-                        <GroupBankInfo costs={costType === CostTypes.SPENDING ? spendings : incomings} />
+                        <GroupBankInfo
+                            costs={costType === CostTypes.SPENDING ? spendings : incomings}
+                            setVisible={setVisible}
+                        />
                     </article>
                 </>
             }

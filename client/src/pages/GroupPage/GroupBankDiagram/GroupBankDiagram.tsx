@@ -1,11 +1,12 @@
+import { FC } from "react";
 import { Pie } from "react-chartjs-2";
-import { FC, useEffect, useState } from 'react';
 import { Chart, ArcElement, Legend, Tooltip } from 'chart.js'
 import ChartDataLabels, { Context } from "chartjs-plugin-datalabels";
 
-import { CategoryType, colorCategories } from '../../../utils/imgCategories';
 
+import useSortByValue from "../../../hooks/useSortByValues";
 import { ICost } from "../../../types/cost";
+import { CategoryType, colorCategories } from '../../../utils/imgCategories';
 
 import styles from "./group-bank-diagram.module.scss";
 
@@ -17,30 +18,10 @@ const GroupBankDiagram: FC<GroupBankDiagramProps> = ({ costs }) => {
 
     Chart.register(ArcElement, Legend, Tooltip, ChartDataLabels);
 
-    const [allCosts, setAllCosts] = useState<number>(0);
-    const [sortedCosts, setSortedCosts] = useState<ICost[]>([]);
-
-    useEffect(() => {
-        const groupedCosts: ICost[] = [];
-        costs.forEach((cost: ICost) => {
-            const findend = groupedCosts.find((costG: ICost) => costG.category === cost.category);
-            if (findend) {
-                findend.value = Math.abs(findend.value) + Math.abs(cost.value);
-            } else {
-                groupedCosts.push({ ...cost });
-            }
-        });
-
-        setAllCosts(
-            Array.from(costs.map((cost: ICost) => cost.value))
-                .reduce((prev: number, next: number) => Math.abs(prev) + Math.abs(next), 0)
-        );
-
-        setSortedCosts(groupedCosts.sort((a, b) => a.value - b.value));
-    }, [costs]);
+    const allCosts = useSortByValue(costs);
 
     const labelsFormatter = (context: any, args: Context): string => {
-        if (Math.abs(context) / Math.abs(allCosts) < 0.10) {
+        if (Math.abs(context) / Math.abs(allCosts.sum) < 0.10) {
             return "";
         }
 
@@ -51,7 +32,7 @@ const GroupBankDiagram: FC<GroupBankDiagramProps> = ({ costs }) => {
 
     return (
         <section className={styles.diagram_wrapper}>
-            {sortedCosts.length > 0
+            {allCosts.costs.length > 0
 
                 ?
                 <Pie
@@ -59,11 +40,11 @@ const GroupBankDiagram: FC<GroupBankDiagramProps> = ({ costs }) => {
                     width={"500px"}
                     data={
                         {
-                            labels: [...Array.from(sortedCosts.map((cost: ICost) => cost.category?.name))],
+                            labels: [...Array.from(allCosts.costs.map((cost: ICost) => cost.category?.name))],
                             datasets: [{
                                 label: '',
-                                data: [...Array.from(sortedCosts.map((cost: ICost) => cost.value))],
-                                backgroundColor: [...Array.from(sortedCosts.map((cost: ICost) => colorCategories[cost.category?.imgId as CategoryType]))],
+                                data: [...Array.from(allCosts.costs.map((cost: ICost) => cost.value))],
+                                backgroundColor: [...Array.from(allCosts.costs.map((cost: ICost) => colorCategories[cost.category?.imgId as CategoryType]))],
                                 hoverOffset: 4,
                                 borderWidth: 0,
                             }]

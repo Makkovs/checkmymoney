@@ -23,12 +23,15 @@
 }
 
 .input {
-    font-size: 16px;
-    font-family: Verdana, sans-serif;
     padding: 8px;
     margin-top: 10px;
+
+    font-size: 16px;
+    font-family: Verdana, sans-serif;
+
     min-width: 250px;
     background: none;
+
     border: 0px;
     border-radius: 3px;
     border-bottom: 3px solid rgb(146, 146, 146);
@@ -47,6 +50,7 @@
 .input_password_wrapper {
     position: relative;
     display: inline-block;
+
     border-radius: 3px;
     border-bottom: 3px solid rgb(146, 146, 146);
 
@@ -58,9 +62,11 @@
 .password_button {
     cursor: pointer;
     border: 0px;
+
     min-width: 20px;
     min-height: 20px;
     margin-right: 10px;
+    
     background-size: cover;
     background-color: $second-color;
 }
