@@ -18,7 +18,7 @@ interface CostCreateModalProps {
     visible: boolean;
     setVisible: (state: boolean) => void;
     costGroupId: number;
-    getCosts: () => void;
+    getCosts: (date: Date[] | null) => void;
 }
 
 const CostCreateModal: FC<CostCreateModalProps> = ({ visible, setVisible, costGroupId, getCosts }) => {
@@ -53,7 +53,7 @@ const CostCreateModal: FC<CostCreateModalProps> = ({ visible, setVisible, costGr
             const type = Number(value) < 0 ? CostTypes.SPENDING : CostTypes.INCOMING;
             createCost(Number(value), Number(selectRef.current.value), type, costGroupId)
                 .then(() => {
-                    getCosts()
+                    getCosts(null)
                     setValue("");
                 });
         }

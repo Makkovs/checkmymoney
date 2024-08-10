@@ -12,7 +12,6 @@ class CostService {
 
     async getAll(categoryId, type, costGroupId, userId, betweenDate) {
         let whereCheck = { costGroupId };
-
         if (userId) {
             whereCheck.userId = userId;
         }
@@ -28,7 +27,6 @@ class CostService {
         if (betweenDate) {
             whereCheck.createdAt = { [Op.between]: [new Date(betweenDate[0]), new Date(betweenDate[1])] }
         }
-
         const costs = await Cost.findAndCountAll({ where: whereCheck });
 
         return costs;

@@ -14,7 +14,7 @@ import GroupBankDiagram from "./GroupBankDiagram/GroupBankDiagram";
 import { fetchOneGroup } from "../../http/costGroupAPI";
 
 import { IGroup } from "../../types/group";
-import { CostTypes } from "../../types/cost";
+import { CostTypes, TimePeriods } from "../../types/cost";
 
 import styles from "./group-page.module.scss";
 
@@ -27,14 +27,44 @@ const GroupPage: FC = () => {
     const [loading, setLoading] = useState<boolean>(true);
     const [visible, setVisible] = useState<boolean>(false);
     const [costType, setCostType] = useState<string>(CostTypes.SPENDING);
+    const [timePeriod, setTimePeriod] = useState<string>(TimePeriods.ALLTIME);
 
-    const { costs, getCosts } = useGetCosts(Number(id), setLoading);
+    const { costs, getCosts, setCosts } = useGetCosts(Number(id), setLoading);
     const { spendings, incomings } = useSortByType(costs);
     const { total, totalSpendings, totalIncomings } = useGetTotal(spendings, incomings);
 
     useEffect(() => {
         fetchOneGroup(Number(id)).then((data) => setGroup(data.costGroup));
     }, []);
+
+    useEffect(() => {
+        switch(timePeriod){
+            case TimePeriods.ALLTIME:
+                getCosts(null);
+                break;
+            case TimePeriods.MONTH:
+                const firstDateMonth = new Date();
+                firstDateMonth.setHours(0, 0, 0);
+                firstDateMonth.setDate(1);
+
+                const secondDateMonth = new Date(firstDateMonth);
+                secondDateMonth.setMonth(firstDateMonth.getMonth() + 1)
+                getCosts([firstDateMonth, secondDateMonth]);
+                break;
+            case TimePeriods.YEAR:
+                const firstDateYear = new Date();
+                firstDateYear.setHours(0, 0, 0);
+                firstDateYear.setDate(1);
+                firstDateYear.setMonth(0);
+                
+                const secondDateYear = new Date(firstDateYear);
+                secondDateYear.setFullYear(firstDateYear.getFullYear() + 1);
+                getCosts([firstDateYear, secondDateYear]);
+                break;
+            default:
+                break;
+        }
+    }, [timePeriod])
 
     return (
         <main className={styles.content}>
@@ -67,6 +97,47 @@ const GroupPage: FC = () => {
                             <h2 className={styles.total}>
                                 Підсумки: <span className={total >= 0 ? styles.green : styles.red}>{total}</span>
                             </h2>
+                        </section>
+                        <section>
+                            <span
+                                className={styles.cost_type_text}
+                                onClick={() => setTimePeriod(TimePeriods.MONTH)}
+                            >
+                                <input 
+                                    className={styles.cost_type_radio}
+                                    type="radio" 
+                                    name="time"
+                                    value={TimePeriods.MONTH}
+                                    checked={timePeriod === TimePeriods.MONTH}
+                                    onChange={(e) => setTimePeriod(e.target.value)}
+                                /> Місяць
+                            </span>
+                            <span
+                                className={styles.cost_type_text}
+                                onClick={() => setTimePeriod(TimePeriods.YEAR)}
+                            >
+                                <input 
+                                    className={styles.cost_type_radio}
+                                    type="radio" 
+                                    name="time"
+                                    value={TimePeriods.YEAR}
+                                    checked={timePeriod === TimePeriods.YEAR}
+                                    onChange={(e) => setTimePeriod(e.target.value)}
+                                /> Рік
+                            </span>
+                            <span
+                                className={styles.cost_type_text}
+                                onClick={() => setTimePeriod(TimePeriods.ALLTIME)}
+                            >
+                                <input 
+                                    className={styles.cost_type_radio}
+                                    type="radio" 
+                                    name="time"
+                                    value={TimePeriods.ALLTIME}
+                                    checked={timePeriod === TimePeriods.ALLTIME}
+                                    onChange={(e) => setTimePeriod(e.target.value)}
+                                /> Весь час
+                            </span>
                         </section>
                         <section>
                             <span

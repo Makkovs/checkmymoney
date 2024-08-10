@@ -3,7 +3,6 @@ import { Pie } from "react-chartjs-2";
 import { Chart, ArcElement, Legend, Tooltip } from 'chart.js'
 import ChartDataLabels, { Context } from "chartjs-plugin-datalabels";
 
-
 import useSortByValue from "../../../hooks/useSortByValues";
 import { ICost } from "../../../types/cost";
 import { CategoryType, colorCategories } from '../../../utils/imgCategories';

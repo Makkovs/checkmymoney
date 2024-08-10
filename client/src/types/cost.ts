@@ -14,3 +14,9 @@ export enum CostTypes {
     SPENDING = "SPENDING",
     INCOMING = "INCOMING"
 }
+
+export enum TimePeriods {
+    ALLTIME = "ALL-TIME",
+    YEAR = "YEAR",
+    MONTH = "MONTH"
+}

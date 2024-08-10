@@ -8,7 +8,7 @@ interface CostData {
     categoryId?: number | null;
     costGroupId: number;
     userId?: number | null;
-    betweenDate?: string | null;
+    betweenDate?: Date[] | null;
 }
 
 export const createCost = async <T extends CostData>(
@@ -23,11 +23,11 @@ export const createCost = async <T extends CostData>(
 }
 
 export const fetchAllCosts = async <T extends CostData>(
-    categoryId: T["categoryId"], type: T["type"], costGroupId: T["costGroupId"], userId: T["userId"], beetweenDate: T["betweenDate"]
+    categoryId: T["categoryId"], type: T["type"], costGroupId: T["costGroupId"], userId: T["userId"], betweenDate: T["betweenDate"]
 ) => {
     try {
         const { data } = await $host.get("api/cost/get-all", {
-            params: { categoryId, type, costGroupId, userId, beetweenDate }
+            params: { categoryId, type, costGroupId, userId, betweenDate }
         });
         return data;
     } catch (error: any) {

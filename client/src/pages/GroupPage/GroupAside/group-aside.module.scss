@@ -5,21 +5,30 @@
     flex-direction: column;
     padding: 50px 70px;
 
-    max-height: 80vh;
+    height: 80vh;
     background: #f0f0f0;
     overflow-y: auto;
+
+
+    .delete_button {
+        cursor: pointer;
+        display: inline-block;
+        margin-left: 10px;
+        color: $red-color;
+    }
 
     .last_change {
         display: grid;
         grid-template-columns: 2fr 3fr 1fr;
         align-items: center;
-        
+
         padding: 5px;
         margin-top: 20px;
 
         .last_change__picture {
             margin-right: 20px;
             width: 50px;
+            cursor: pointer;
         }
 
         .date {
